@@ -9,7 +9,7 @@ node('katfv5') {
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
-        git branch: env.BRANCH, url: 'ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e'
+        git branch: env.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
         unittests = load 'pipeline/pipeline.unittests'
 
     // Run UT
