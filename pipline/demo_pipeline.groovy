@@ -25,7 +25,7 @@ node('katfv5') {
         // Load inlcude files
         deleteDir()
         git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
-        unittests = load 'pipeline.unittests'
+        unittests = load 'unittests'
         echo 'after unitest load'
 
     // Run UT
