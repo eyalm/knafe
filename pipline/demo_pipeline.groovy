@@ -24,13 +24,9 @@ node('katfv5') {
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
-        echo 'befor git'
-        echo env.BRANCH
-        echo "flag: ${params.BRANCH}"
-        echo "flag: ${params.REPO}"
         git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
-        echo 'befor unitest load'
-        unittests = load 'pipeline/pipeline.unittests'
+        unittests = load 'pipeline.unittests'
+        echo 'after unitest load'
 
     // Run UT
         stage ('UnitTests') {
