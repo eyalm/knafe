@@ -4,7 +4,7 @@ def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
 def unittests
 
 
-node('rhel75') {
+node('katfv5') {
     try {
         notifyBuild('STARTED')
         // Load inlcude files
