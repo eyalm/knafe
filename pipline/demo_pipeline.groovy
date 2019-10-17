@@ -1,12 +1,5 @@
 #!/usr/bin/env groovy
 
-properties([
-  parameters([
-     booleanParam(name: 'DEPLOY_SHA', defaultValue: false),
-  ])
-])
-
-//def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
 def unittests
 
 node('katfv5') {
