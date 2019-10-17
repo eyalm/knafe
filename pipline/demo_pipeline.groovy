@@ -14,7 +14,6 @@ node('katfv5') {
         ]
     )
 
-    def unittests
     
     try {
         notifyBuild('STARTED')
