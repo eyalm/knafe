@@ -6,7 +6,7 @@ properties([
   ])
 ])
 
-def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
+//def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
 def unittests
 
 node('katfv5') {
@@ -14,8 +14,8 @@ node('katfv5') {
         [
             parameters(
               [
-                string(defaultValue: '/data', name: 'Directory'),
-                string(defaultValue: 'Dev', name: 'DEPLOY_ENV')
+                string(defaultValue: 'ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e', name: 'REPO'),
+                string(defaultValue: 'master', name: 'BRANCH')
               ]
             )
         ]
@@ -26,7 +26,9 @@ node('katfv5') {
         deleteDir()
         echo 'befor git'
         echo env.BRANCH
-        git branch: 'master', url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
+        echo "flag: ${params.BRANCH}"
+        echo "flag: ${params.REPO}"
+        git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
         echo 'befor unitest load'
         unittests = load 'pipeline/pipeline.unittests'
 
