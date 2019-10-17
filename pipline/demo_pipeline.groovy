@@ -1,51 +1,46 @@
 #!/usr/bin/env groovy
 
-pipeline {
-    
-    stages {
 
-        def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
-        def unittests
+def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
+def unittests
 
-        node('katfv5') {
-            properties(
-                [
-                    parameters(
-                        [string(defaultValue: '/data', name: 'Directory'),
-                         string(defaultValue: 'Dev', name: 'DEPLOY_ENV')]
-                        )
+node('katfv5') {
+    properties(
+        [
+            parameters(
+                [string(defaultValue: '/data', name: 'Directory'),
+                 string(defaultValue: 'Dev', name: 'DEPLOY_ENV')]
+                )
 
-                ]
-            )
-            try {
-                notifyBuild('STARTED')
-                // Load inlcude files
-                deleteDir()
-                echo 'befor git'
-                echo env.BRANCH
-                git branch: 'master', url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
-                echo 'befor unitest load'
-                unittests = load 'pipeline/pipeline.unittests'
+        ]
+    )
+    try {
+        notifyBuild('STARTED')
+        // Load inlcude files
+        deleteDir()
+        echo 'befor git'
+        echo env.BRANCH
+        git branch: 'master', url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
+        echo 'befor unitest load'
+        unittests = load 'pipeline/pipeline.unittests'
 
-            // Run UT
-                stage ('UnitTests') {
-                    echo 'befor unitest runtests'
-                    unittests.runtests(repo)
-                }
-
-            }
-            catch (e) {
-                // If there was an exception thrown, the build failed
-                currentBuild.result = "FAILED"
-                throw e
-            }
-            finally {
-                // Success or failure, always send notifications
-                notifyBuild(currentBuild.result)
-            }
+    // Run UT
+        stage ('UnitTests') {
+            echo 'befor unitest runtests'
+            unittests.runtests(repo)
         }
+
     }
-}   
+    catch (e) {
+        // If there was an exception thrown, the build failed
+        currentBuild.result = "FAILED"
+        throw e
+    }
+    finally {
+        // Success or failure, always send notifications
+        notifyBuild(currentBuild.result)
+    }
+}
 
 
 def notifyBuild(String buildStatus = 'STARTED') {
