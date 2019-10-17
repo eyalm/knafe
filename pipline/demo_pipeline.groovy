@@ -1,17 +1,24 @@
 #!/usr/bin/env groovy
 
 pipeline {
+    
+//    agent any
     def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
     def unittests
 
-    parameters {
-            string(defaultValue: "TEST", description: 'What environment?', name: 'userFlag')
-            choice(choices: ['US-EAST-1', 'US-WEST-2'], description: 'What AWS region?', name: 'region')
-    }
 
     stages {
 
         node('katfv5') {
+            properties(
+                [
+                    parameters(
+                        [string(defaultValue: '/data', name: 'Directory'),
+                         string(defaultValue: 'Dev', name: 'DEPLOY_ENV')]
+                        )
+
+                ]
+            )
             try {
                 notifyBuild('STARTED')
                 // Load inlcude files
