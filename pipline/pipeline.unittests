@@ -8,12 +8,12 @@ def runtests(repo){
 
 
 
-        checkout([$class: 'GitSCM',
-                branches: [[name: env.BRANCH]],
-                doGenerateSubmoduleConfigurations:false,
-                extensions: [],
-                submoduleCfg: [],
-                userRemoteConfigs: [[url:repo]]])
+//        checkout([$class: 'GitSCM',
+//                branches: [[name: env.BRANCH]],
+//                doGenerateSubmoduleConfigurations:false,
+//                extensions: [],
+//                submoduleCfg: [],
+//                userRemoteConfigs: [[url:repo]]])
         sh '/usr/bin/python autosde.py generate-all --backend_only'
         sh '/usr/bin/python autosde.py unit-tests'
         archiveArtifacts 'unit_tests_reports/TEST*.xml'
