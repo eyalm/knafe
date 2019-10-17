@@ -60,24 +60,24 @@ def notifyBuild(String buildStatus = 'STARTED') {
   // Send notifications
   //slackSend (color: colorCode, message: summary)
 
-  if (buildStatus == 'FAILED') {
-    emailext (
-        attachLog: true,
-        from: "Jenkins",
-        subject: subject,
-        body: details,
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-        to: 'erantz@il.ibm.com'
-    )
-  }
-  else {
-    emailext (
-        attachLog: true,
-        from: "Jenkins",
-        subject: subject,
-        body: details,
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
-    )
-  }
+  // if (buildStatus == 'FAILED') {
+  //   emailext (
+  //       attachLog: true,
+  //       from: "Jenkins",
+  //       subject: subject,
+  //       body: details,
+  //       recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+  //       to: 'erantz@il.ibm.com'
+  //   )
+  // }
+  // else {
+  //   emailext (
+  //       attachLog: true,
+  //       from: "Jenkins",
+  //       subject: subject,
+  //       body: details,
+  //       recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+  //   )
+  // }
 }
 
