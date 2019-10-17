@@ -1,6 +1,5 @@
 def runtests(repo){
     echo 'in tests'
-    //node ('rhel75') {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
         deleteDir()
         checkout([$class: 'GitSCM',
@@ -21,7 +20,6 @@ def runtests(repo){
         // archiveArtifacts artifacts: '**/nosetests.xml'
         // publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'cover/', reportFiles: 'index.html', reportName: 'Autosde Coverage Report'])
         // junit '**/nosetests.xml'
-    //}
     }
 }
 
