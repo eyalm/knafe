@@ -2,12 +2,10 @@
 
 pipeline {
     
-//    agent any
-    def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
-    def unittests
-
-
     stages {
+
+        def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
+        def unittests
 
         node('katfv5') {
             properties(
