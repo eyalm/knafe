@@ -1,37 +1,46 @@
 #!/usr/bin/env groovy
 
-def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
-def unittests
+pipeline {
+    def repo = "ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e"
+    def unittests
 
+    parameters {
+            string(defaultValue: "TEST", description: 'What environment?', name: 'userFlag')
+            choice(choices: ['US-EAST-1', 'US-WEST-2'], description: 'What AWS region?', name: 'region')
+    }
 
-node('katfv5') {
-    try {
-        notifyBuild('STARTED')
-        // Load inlcude files
-        deleteDir()
-        echo 'befor git'
-        echo env.BRANCH
-        git branch: env.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
-        echo 'befor unitest load'
-        unittests = load 'pipeline/pipeline.unittests'
+    stages {
 
-    // Run UT
-        stage ('UnitTests') {
-            echo 'befor unitest runtests'
-            unittests.runtests(repo)
+        node('katfv5') {
+            try {
+                notifyBuild('STARTED')
+                // Load inlcude files
+                deleteDir()
+                echo 'befor git'
+                echo env.BRANCH
+                git branch: 'master', url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
+                echo 'befor unitest load'
+                unittests = load 'pipeline/pipeline.unittests'
+
+            // Run UT
+                stage ('UnitTests') {
+                    echo 'befor unitest runtests'
+                    unittests.runtests(repo)
+                }
+
+            }
+            catch (e) {
+                // If there was an exception thrown, the build failed
+                currentBuild.result = "FAILED"
+                throw e
+            }
+            finally {
+                // Success or failure, always send notifications
+                notifyBuild(currentBuild.result)
+            }
         }
-
     }
-    catch (e) {
-        // If there was an exception thrown, the build failed
-        currentBuild.result = "FAILED"
-        throw e
-    }
-    finally {
-        // Success or failure, always send notifications
-        notifyBuild(currentBuild.result)
-    }
-}
+}   
 
 
 def notifyBuild(String buildStatus = 'STARTED') {
