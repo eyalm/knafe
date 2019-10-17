@@ -9,11 +9,14 @@ node('katfv5') {
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
+        echo 'befor git'
         git branch: env.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
+        echo 'befor unitest load'
         unittests = load 'pipeline/pipeline.unittests'
 
     // Run UT
         stage ('UnitTests') {
+            echo 'befor unitest runtests'
             unittests.runtests(repo)
         }
 

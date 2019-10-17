@@ -1,4 +1,5 @@
 def runtests(repo){
+    echo 'in tests'
     //node ('rhel75') {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
         deleteDir()
