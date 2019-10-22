@@ -37,11 +37,11 @@ node('katfv5') {
 
     // Checkout 
         stage ('Checkout') {
-            commiter_name = checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
+            checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
         }
 
     // Run UT
-        echo commiter_name
+        echo params.commiter_name
         stage ('UnitTests') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
