@@ -23,6 +23,7 @@ node('katfv5') {
         echo 'befor unitest load'
         myPath = "${env.WORKSPACE}"
         echo myPath
+        sh "ls -la ${pwd()}"
         unittests = load 'pipeline/pipeline.unittests'
         echo 'after unitest load'
 
