@@ -1,10 +1,12 @@
 #!/usr/bin/env groovy
 
-def runtests(repo, branch){
+def runtests(my_repo, my_branch){
     deleteDir()
+    echo "my_repo = ${my_repo}, my_branch = ${my_branch}"
+    echo "params.my_repo = ${params.my_repo}, params.my_branch = ${params.my_branch}"
     //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
     checkout([$class: 'GitSCM',
-            branches: [[name: branch]], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: repo]]])
+            branches: [[name: my_branch]], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: my_repo]]])
     // checkout([$class: 'GitSCM',
     //         branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: 'http://bitbucket/scm/atf/k.n.a.f.e.git']]])
 

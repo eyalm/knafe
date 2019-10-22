@@ -7,8 +7,8 @@ node('katfv5') {
         [
             parameters(
               [
-                string(defaultValue: 'http://bitbucket/scm/atf/k.n.a.f.e.git', name: 'REPO'),
-                string(defaultValue: 'master', name: 'BRANCH')
+                string(defaultValue: 'http://bitbucket/scm/atf/k.n.a.f.e.git', name: 'MYREPO'),
+                string(defaultValue: 'master', name: 'MYBRANCH')
               ]
             )
         ]
@@ -16,7 +16,7 @@ node('katfv5') {
 
 
     try {
-        echo "${params.REPO}, ${params.BRANCH}"
+        echo "${params.MYREPO}, ${params.MYBRANCH}"
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
@@ -34,7 +34,7 @@ node('katfv5') {
 
     // Run UT
         stage ('UnitTests') {
-            unittests.runtests(params.REPO, params.BRANCH)
+            unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
 
     }
