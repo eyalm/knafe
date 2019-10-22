@@ -19,7 +19,7 @@ node('katfv5') {
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
-        git branch: master, url: 'https://github.com/eyalm/knafe.git'
+        git branch: 'master', url: 'https://github.com/eyalm/knafe.git'
         //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
         echo 'befor unitest load'
         myPath = "${env.WORKSPACE}" + "/" + "pipeline"
