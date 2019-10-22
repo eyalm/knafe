@@ -1,3 +1,5 @@
+def commiter_name
+
 def checkout_code(my_repo, my_branch){
     deleteDir()
     echo "my_repo = ${my_repo}, my_branch = ${my_branch}, work space = ${env.WORKSPACE}"
@@ -9,7 +11,7 @@ def checkout_code(my_repo, my_branch){
 	
     //get last commiter name 
     sh 'git log --format="%ae" | head -1 > commit-author.txt'                 
-	def commiter_name = readFile('commit-author.txt').trim()
+	commiter_name = readFile('commit-author.txt').trim()
 	echo "last commiter name = " + commiter_name
 }
 
