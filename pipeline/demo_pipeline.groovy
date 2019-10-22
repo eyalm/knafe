@@ -7,7 +7,7 @@ node('katfv5') {
         [
             parameters(
               [
-                string(defaultValue: 'ssh://eyal.meltzer@bitbucket:7999/atf/k.n.a.f.e', name: 'REPO'),
+                string(defaultValue: 'http://bitbucket/scm/atf/k.n.a.f.e.git', name: 'REPO'),
                 string(defaultValue: 'master', name: 'BRANCH')
               ]
             )
