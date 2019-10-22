@@ -19,22 +19,20 @@ node('katfv5') {
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
+        // bring the repository to the slave node
         git branch: 'master', url: 'https://github.com/eyalm/knafe.git'
-        //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
-        echo 'befor unitest load'
-        myPath = "${env.WORKSPACE}" + "/" + "pipeline"
-        echo myPath
-        sh "ls -la ${pwd()}"
         
-        def  FILES_LIST = sh (script: "ls   '${pwd()}'/pipeline", returnStdout: true).trim()
-        echo "FILES_LIST : ${FILES_LIST}"
+        // myPath = "${env.WORKSPACE}" + "/" + "pipeline"
+        // echo myPath
+        // sh "ls -la ${pwd()}"
+        
+        // def  FILES_LIST = sh (script: "ls   '${pwd()}'/pipeline", returnStdout: true).trim()
+        // echo "FILES_LIST : ${FILES_LIST}"
 
         unittests = load 'pipeline/pipeline.unittests'
-        echo 'after unitest load'
 
     // Run UT
         stage ('UnitTests') {
-            echo 'befor unitest runtests'
             unittests.runtests()
         }
 
