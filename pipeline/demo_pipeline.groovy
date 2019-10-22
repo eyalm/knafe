@@ -21,11 +21,11 @@ node('katfv5') {
         deleteDir()
         //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
         echo 'befor unitest load'
-        myPath = "${env.WORKSPACE}" + "/" + "knafe"
+        myPath = "${env.WORKSPACE}" + "/" + "pipeline"
         echo myPath
         sh "ls -la ${pwd()}"
         
-        def  FILES_LIST = sh (script: "ls   '${pwd()}'/knafe", returnStdout: true).trim()
+        def  FILES_LIST = sh (script: "ls   '${pwd()}'/pipeline", returnStdout: true).trim()
         echo "FILES_LIST : ${FILES_LIST}"
 
         unittests = load 'pipeline/pipeline.unittests'
