@@ -1,5 +1,3 @@
-def commiter_name
-
 def checkout_code(my_repo, my_branch){
     deleteDir()
     echo "my_repo = ${my_repo}, my_branch = ${my_branch}, work space = ${env.WORKSPACE}"
@@ -15,4 +13,4 @@ def checkout_code(my_repo, my_branch){
 	echo "last commiter name = " + commiter_name
 }
 
-return commiter_name;
+return this;
