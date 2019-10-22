@@ -21,7 +21,7 @@ node('katfv5') {
         deleteDir()
         //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
         echo 'befor unitest load'
-        unittests = load 'pipeline_unittests.groovy'
+        unittests = load 'pipeline/pipeline_unittests.groovy'
         echo 'after unitest load'
 
     // Run UT
