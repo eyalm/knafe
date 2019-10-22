@@ -21,7 +21,7 @@ node('katfv5') {
         deleteDir()
         //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
         echo 'befor unitest load'
-        myPath = "${env.WORKSPACE}"
+        myPath = "${env.WORKSPACE}" + "/" + "knafe"
         echo myPath
         sh "ls -la ${pwd()}"
         
