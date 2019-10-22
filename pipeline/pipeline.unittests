@@ -2,6 +2,9 @@
 
 //def runtests(repo){
 def runtests(){
+	ansiColor('xterm') {
+ 		echo 'something that outputs ansi colored stuff'
+	}
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
         deleteDir()
         //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
