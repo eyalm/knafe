@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 def runtests(repo){
     echo 'in tests'
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
