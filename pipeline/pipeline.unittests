@@ -2,14 +2,10 @@
 
 //def runtests(repo){
 def runtests(){
-	ansiColor('xterm') {
- 		echo 'something that outputs ansi colored stuff'
-	}
-    wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-        deleteDir()
-        //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
-        checkout([$class: 'GitSCM',
-                branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: 'http://bitbucket/scm/atf/k.n.a.f.e.git']]])
+    deleteDir()
+    //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
+    checkout([$class: 'GitSCM',
+            branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: 'http://bitbucket/scm/atf/k.n.a.f.e.git']]])
 
 
 
@@ -20,14 +16,13 @@ def runtests(){
 //                submoduleCfg: [],
 //                userRemoteConfigs: [[url:repo]]])
 //run_knafe -p kcs505 -t /khome/eyal.meltzer/work/source/p2top3/k.n.a.f.e/test_cases/features/knafe_ci/knafe_ci.feature -u eyal.meltzer –speedup
-        sh '/usr/bin/python run_knafe --help'
-        //sh '/usr/bin/python autosde.py unit-tests'
-        archiveArtifacts 'unit_tests_reports/TEST*.xml'
-        junit allowEmptyResults: true, keepLongStdio: true, testResults: 'unit_tests_reports/TEST*.xml'
-        // archiveArtifacts artifacts: '**/nosetests.xml'
-        // publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'cover/', reportFiles: 'index.html', reportName: 'Autosde Coverage Report'])
-        // junit '**/nosetests.xml'
-    }
+    sh '/usr/bin/python run_knafe --help'
+    //sh '/usr/bin/python autosde.py unit-tests'
+    archiveArtifacts 'unit_tests_reports/TEST*.xml'
+    junit allowEmptyResults: true, keepLongStdio: true, testResults: 'unit_tests_reports/TEST*.xml'
+    // archiveArtifacts artifacts: '**/nosetests.xml'
+    // publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'cover/', reportFiles: 'index.html', reportName: 'Autosde Coverage Report'])
+    // junit '**/nosetests.xml'
 }
 
 return this;
