@@ -19,7 +19,7 @@ node('katfv5') {
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
-        git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
+        //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
         echo 'befor unitest load'
         unittests = load 'pipeline_unittests.groovy'
         echo 'after unitest load'
