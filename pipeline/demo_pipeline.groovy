@@ -25,7 +25,7 @@ node('katfv5') {
         echo myPath
         sh "ls -la ${pwd()}"
         
-        def  FILES_LIST = sh (script: "ls   '${workers_dir}'", returnStdout: true).trim()
+        def  FILES_LIST = sh (script: "ls   '${pwd()}'", returnStdout: true).trim()
         echo "FILES_LIST : ${FILES_LIST}"
 
         unittests = load 'pipeline/pipeline.unittests'
