@@ -30,9 +30,16 @@ node('katfv5') {
         // def  FILES_LIST = sh (script: "ls   '${pwd()}'/pipeline", returnStdout: true).trim()
         // echo "FILES_LIST : ${FILES_LIST}"
 
+        checkout_code = load 'pipeline/pipeline.checkout'
         unittests = load 'pipeline/pipeline.unittests'
 
+    // Checkout 
+        stage ('Checkout') {
+            checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
+        }
+
     // Run UT
+        echo ${params.commiter_name}
         stage ('UnitTests') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
