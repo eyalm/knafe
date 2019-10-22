@@ -3,7 +3,7 @@
 def runtests(my_repo, my_branch){
     deleteDir()
     echo "my_repo = ${my_repo}, my_branch = ${my_branch}, work space = ${env.WORKSPACE}"
-    echo "params.my_repo = ${params.MYREPO}, params.my_branch = ${params.MYBRANCH}, work space = ${params.WORKSPACE}"
+    echo "params.my_repo = ${params.MYREPO}, params.my_branch = ${params.MYBRANCH}"
     //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
     checkout([$class: 'GitSCM',
             branches: [[name: my_branch]], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: my_repo]]])
@@ -19,6 +19,7 @@ def runtests(my_repo, my_branch){
 //                submoduleCfg: [],
 //                userRemoteConfigs: [[url:repo]]])
 //run_knafe -p kcs505 -t /khome/eyal.meltzer/work/source/p2top3/k.n.a.f.e/test_cases/features/knafe_ci/knafe_ci.feature -u eyal.meltzer –speedup
+    echo "running the follow command = ${env.WORKSPACE}/run_knafe --help"
     sh '${env.WORKSPACE}/run_knafe --help'
     //sh '/usr/bin/python autosde.py unit-tests'
     //sh "${env.WORKSPACE}/run_knafe -p ${env.CI_POOL} -u ${to_blame} -t ${env.CI_SUITE}"
