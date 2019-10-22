@@ -1,5 +1,3 @@
-#!/usr/bin/env groovy
-
 def runtests(my_repo, my_branch){
     deleteDir()
     echo "my_repo = ${my_repo}, my_branch = ${my_branch}, work space = ${env.WORKSPACE}"
@@ -19,8 +17,9 @@ def runtests(my_repo, my_branch){
 //                submoduleCfg: [],
 //                userRemoteConfigs: [[url:repo]]])
 //run_knafe -p kcs505 -t /khome/eyal.meltzer/work/source/p2top3/k.n.a.f.e/test_cases/features/knafe_ci/knafe_ci.feature -u eyal.meltzer –speedup
-    echo "running the follow command = ${env.WORKSPACE}/run_knafe --help"
-    rc = sh '${env.WORKSPACE}/run_knafe --help'
+    echo "running the follow command = ${WORKSPACE}/run_knafe --help"
+    //rc = sh '${env.WORKSPACE}/run_knafe --help'
+    rc = sh '${WORKSPACE}/run_knafe --help'
     echo 'rc = ${rc}'
     echo "done"
     //sh '/usr/bin/python autosde.py unit-tests'
