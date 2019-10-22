@@ -1,11 +1,12 @@
 #!/usr/bin/env groovy
 
-//def runtests(repo){
-def runtests(){
-    //deleteDir()
+def runtests(repo, branch){
+    deleteDir()
     //git branch: params.BRANCH, url: 'http://bitbucket/scm/atf/k.n.a.f.e.git'
     checkout([$class: 'GitSCM',
-            branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: 'http://bitbucket/scm/atf/k.n.a.f.e.git']]])
+            branches: [[name: branch]], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: repo]]])
+    // checkout([$class: 'GitSCM',
+    //         branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false,  submoduleCfg: [], userRemoteConfigs: [[url: 'http://bitbucket/scm/atf/k.n.a.f.e.git']]])
 
 
 

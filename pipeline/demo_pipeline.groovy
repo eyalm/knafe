@@ -16,6 +16,7 @@ node('katfv5') {
 
 
     try {
+        echo "${params.REPO}, ${params.BRANCH}"
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
@@ -33,7 +34,7 @@ node('katfv5') {
 
     // Run UT
         stage ('UnitTests') {
-            unittests.runtests()
+            unittests.runtests(params.REPO, params.BRANCH)
         }
 
     }
