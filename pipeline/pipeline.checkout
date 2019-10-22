@@ -9,8 +9,8 @@ def checkout_code(my_repo, my_branch){
 	
     //get last commiter name 
     sh 'git log --format="%ae" | head -1 > commit-author.txt'                 
-	params.commiter_name = readFile('commit-author.txt').trim()
-	echo "last commiter name = " + name
+	def commiter_name = readFile('commit-author.txt').trim()
+	echo "last commiter name = " + commiter_name
 }
 
-return this;
+return commiter_name;

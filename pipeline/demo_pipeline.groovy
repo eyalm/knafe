@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 
 def unittests
+def checkout_code
+def commiter_name
 
 node('katfv5') {
     properties(
@@ -35,11 +37,11 @@ node('katfv5') {
 
     // Checkout 
         stage ('Checkout') {
-            checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
+            commiter_name = checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
         }
 
     // Run UT
-        echo ${params.commiter_name}
+        echo commiter_name
         stage ('UnitTests') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
