@@ -93,34 +93,34 @@ node('katfv5') {
 
 
 def notifyBuild(String buildStatus, String last_commiter_name, String error_file_location_path) {
-  // build status of null means successful
-  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+    // build status of null means successful
+    buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
-  // Default values
-  def colorName = 'RED'
-  def colorCode = '#FF0000'
-  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    // Default values
+    def colorName = 'RED'
+    def colorCode = '#FF0000'
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
 
-  // Override default values based on build status
-  if (buildStatus == 'STARTED') {
-      color = 'PLUM'
-      colorCode = '#DDA0DD'
-  } else if (buildStatus == 'SUCCESSFUL') {
-      color = 'GREEN'
-      colorCode = '#00FF00'
-  } else if (buildStatus == 'UNSTABLE') {
-      color = 'YELLOW'
-      colorCode = '#FFFF00'
-      errors_dump = readFile("${error_file_location_path}")
-  } else { //FAILED
-      color = 'RED'
-      colorCode = '#FF0000'
-      errors_dump = readFile("${error_file_location_path}")
-  }
+    // Override default values based on build status
+    if (buildStatus == 'STARTED') {
+        color = 'PLUM'
+        colorCode = '#DDA0DD'
+    } else if (buildStatus == 'SUCCESSFUL') {
+        color = 'GREEN'
+        colorCode = '#00FF00'
+    } else if (buildStatus == 'UNSTABLE') {
+        color = 'YELLOW'
+        colorCode = '#FFFF00'
+        errors_dump = readFile("${error_file_location_path}")
+    } else { //FAILED
+        color = 'RED'
+        colorCode = '#FF0000'
+        errors_dump = readFile("${error_file_location_path}")
+    }
     
     def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>
-                  <p>${errors_dump}</p>"""
+                   <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>
+                   <p>${errors_dump}</p>"""
     
     
   // Send notifications
