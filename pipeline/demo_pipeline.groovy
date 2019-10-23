@@ -34,7 +34,9 @@ node('katfv5') {
         
         checkout_code = load 'pipeline/pipeline.checkout'
         unittests = load 'pipeline/pipeline.unittests'
+        systemistall = load 'pipeline/pipeline.systeminstall'
         systemtests = load 'pipeline/pipeline.systemtests'
+        userguide = load 'pipeline/pipeline.userguide'
         deployment = load 'pipeline/pipeline.deployment'
 
     // Checkout 
@@ -46,6 +48,11 @@ node('katfv5') {
         echo "last commiter name is:" + last_commiter_name + "@kaminario.com"
         stage ('UnitTests') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
+        }
+
+        stage ('SystemInstall') {
+            
+            systemistall.install()
         }
 
         stage ('SystemTests') {
