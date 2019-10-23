@@ -7,8 +7,17 @@ def testblockcheck
 def systemistall
 def userguide
 def deployment
+def error_file_location_path = "/tmp/paramCheckError.txt"
 
+def send_mail(last_commiter_name, error_file_location_path){
+    // Use SUCCESS FAILURE or ABORTED
+    currentBuild.result = "FAILURE"
+    errors_dump = readFile("${error_file_location_path}")
+    to_blame = last_commiter_name + "@kaminario.com"
+    mail to: to_blame, cc: "alex.tarasiuk@kaminario.com", from:"ATF@kaminario.com", subject: "errors were found during Jenkines pipeline execution", body: errors_dump
+    throw new Exception("Throw to stop pipeline")
 
+}
 
 // Best to leave these at default unless you have a reason to change them
 node('katfv5') {
@@ -28,8 +37,8 @@ node('katfv5') {
     )
 
     //env.WORKSPACE = pwd()
-    try {
-        echo "${params.MYREPO}, ${params.MYBRANCH}"
+    try 
+    {
         notifyBuild('STARTED')
         // Load inlcude files
         deleteDir()
@@ -44,33 +53,42 @@ node('katfv5') {
         userguide = load 'pipeline/pipeline.userguide'
         deployment = load 'pipeline/pipeline.deployment'
 
-    // Checkout 
         stage ('Checkout') {
-           last_commiter_name = checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
+            last_commiter_name = checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
+        
+            if (!last_commiter_name) {
+                last_commiter_name = "alex.tarasiuk"
+            }
+            echo "last commiter name is:" + last_commiter_name + "mail:" + last_commiter_name + "@kaminario.com"
         }
-
-    // Run UT
-        echo "last commiter name is:" + last_commiter_name + "@kaminario.com"
-        stage ('UnitTests') {
+       
+        stage ('Unit Tests') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
 
         stage ('Test Block\'s Check') {
-            testblockcheck.check()
+            res = testblockcheck.check(error_file_location_path)
+            if (res != 0) {
+                send_mail(last_commiter_name, error_file_location_path)
+            }
         } 
 
-        stage ('SystemInstall') {
+        stage ('System Install') {
             
             systemistall.install()
         }
 
-        stage ('SystemTests') {
+        stage ('System Tests') {
             def suite = "${env.WORKSPACE}" + params.CI_SUITE
             systemtests.runtests(CI_POOL, CI_USER, suite)
         }
 
-        stage ('UserGuide') {
-            userguide.generate()
+        stage ('User Guide') {
+            res = userguide.generate(error_file_location_path)
+            if (res != 0) {
+                send_mail(last_commiter_name, error_file_location_path)
+            }
+
         }
 
         stage ('Deploy') {

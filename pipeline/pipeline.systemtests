@@ -1,6 +1,4 @@
 def runtests(pool, user, suite){
-	// //run_knafe -p kcs505 -t /khome/eyal.meltzer/work/source/p2top3/k.n.a.f.e/test_cases/features/knafe_ci/knafe_ci.feature -u eyal.meltzer –speedup
-
     echo "running the follow command = ${env.WORKSPACE}/run_knafe "
     rc = sh "${env.WORKSPACE}/run_knafe -p ${pool} -u ${user} -t ${suite}"
     return rc

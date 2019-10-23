@@ -1,18 +1,7 @@
-def generate(){
-    // try {
-    //     error_file_location = "/tmp/blockScriptError.txt"
-    //     rc = sh(script: "${env.WORKSPACE}/knafe_virtualenv/bin/python ${env.WORKSPACE}/scripts/get_test_block_description_script.py --error_file ${error_file_location} > ${env.WORKSPACE}/user_guide",
-    //             returnStatus: true, returnStdout: false)
-    //     if (rc == 1) {
-    //         if(!to_blame) {
-    //             to_blame = "alex.tarasiuk@kaminario.com"
-    //         }
-    //         block_script_errors = readFile("${error_file_location}")
-    //         mail to: to_blame, cc: "alex.tarasiuk@kaminario.com", from:"ATF@kaminario.com", subject: "You have errors in you block script", body: block_script_errors
-    //     }
-    // } catch (e) {
-    //     echo "User guide failed to generate"
-    // }
+def generate(error_file_location){
+    rc = sh(script: "${env.WORKSPACE}/knafe_virtualenv/bin/python ${env.WORKSPACE}/scripts/get_test_block_description_script.py --error_file ${error_file_location} > ${env.WORKSPACE}/user_guide",
+            returnStatus: true, returnStdout: false)
+    return rc
 }
 
 return this;
