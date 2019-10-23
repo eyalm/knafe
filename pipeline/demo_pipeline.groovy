@@ -56,9 +56,6 @@ node('katfv5') {
         stage ('Deploy') {
             system_tests.runtests(autosde_server_name, "sanity")
         }
-
-    }
-
     }
     catch (e) {
         // If there was an exception thrown, the build failed
