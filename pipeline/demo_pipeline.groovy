@@ -8,7 +8,7 @@ def systemistall
 def userguide
 def deployment
 def error_file_location_path = "/tmp/paramCheckError.txt"
-
+def last_commiter_name
 
 // Best to leave these at default unless you have a reason to change them
 node('katfv5') {
@@ -30,7 +30,7 @@ node('katfv5') {
     //env.WORKSPACE = pwd()
     try 
     {
-        notifyBuild('STARTED')
+        currentBuild.result = "STARTED"
         // Load inlcude files
         deleteDir()
         // bring the repository to the slave node
@@ -95,7 +95,7 @@ node('katfv5') {
 }
 
 
-def notifyBuild(String buildStatus = 'STARTED', String last_commiter_name, String error_file_location_path) {
+def notifyBuild(String buildStatus, String last_commiter_name, String error_file_location_path) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
