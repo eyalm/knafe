@@ -2,8 +2,11 @@
 
 def unittests
 def checkout_code
-def commiter_name
+def systemtests
 
+
+
+// Best to leave these at default unless you have a reason to change them
 node('katfv5') {
     properties(
         [
@@ -11,12 +14,16 @@ node('katfv5') {
               [
                 string(defaultValue: 'http://bitbucket/scm/atf/k.n.a.f.e.git', name: 'MYREPO'),
                 string(defaultValue: 'master', name: 'MYBRANCH')
+                string(defaultValue: 'jenkins_pool', name: 'CI_POOL')
+                string(defaultValue: 'jenkins_ci', name: 'CI_USER')
+                string(defaultValue: '/test_cases/features/knafe_ci/knafe_ci.feature', name: 'CI_SUITE')
+                string(defaultValue: '/ATF/ATF_DISTS/knafe', name: 'DIST_DIR')
               ]
             )
         ]
     )
 
-
+    //env.WORKSPACE = pwd()
     try {
         echo "${params.MYREPO}, ${params.MYBRANCH}"
         notifyBuild('STARTED')
@@ -25,26 +32,32 @@ node('katfv5') {
         // bring the repository to the slave node
         git branch: 'master', url: 'https://github.com/eyalm/knafe.git'
         
-        // myPath = "${env.WORKSPACE}" + "/" + "pipeline"
-        // echo myPath
-        // sh "ls -la ${pwd()}"
-        
-        // def  FILES_LIST = sh (script: "ls   '${pwd()}'/pipeline", returnStdout: true).trim()
-        // echo "FILES_LIST : ${FILES_LIST}"
-
         checkout_code = load 'pipeline/pipeline.checkout'
         unittests = load 'pipeline/pipeline.unittests'
+        systemtests = load 'pipeline/pipeline.systemtests'
+        deployment = load 'pipeline/pipeline.deployment'
 
     // Checkout 
         stage ('Checkout') {
-           commiter_name = checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
+           last_commiter_name = checkout_code.checkout_code(params.MYREPO, params.MYBRANCH)
         }
 
     // Run UT
-        echo commiter_name
+        echo "last commiter name is:" + last_commiter_name + "@kaminario.com"
         stage ('UnitTests') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
+
+        stage ('SystemTests') {
+            def suite = "${env.WORKSPACE}" + params.CI_SUITE
+            system_tests.runtests(CI_POOL, CI_USER, suite)
+        }
+
+        stage ('Deploy') {
+            system_tests.runtests(autosde_server_name, "sanity")
+        }
+
+    }
 
     }
     catch (e) {

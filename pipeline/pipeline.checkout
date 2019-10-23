@@ -8,9 +8,8 @@ def checkout_code(my_repo, my_branch){
             userRemoteConfigs: [[url: my_repo]]])
 	
     //get last commiter name 
-    sh 'git log --format="%ae" | head -1 > commit-author.txt'                 
+    sh 'git log --pretty=%an | head -1 > commit-author.txt'                 
 	commiter_name = readFile('commit-author.txt').trim()
-	echo "last commiter name = " + commiter_name
     return commiter_name
 }
 

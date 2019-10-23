@@ -1,0 +1,11 @@
+def runtests(pool, user, suite){
+	// //run_knafe -p kcs505 -t /khome/eyal.meltzer/work/source/p2top3/k.n.a.f.e/test_cases/features/knafe_ci/knafe_ci.feature -u eyal.meltzer –speedup
+
+    echo "running the follow command = ${env.WORKSPACE}/run_knafe "
+    rc = sh "${env.WORKSPACE}/run_knafe -p ${pool} -u ${user} -t ${suite}"
+
+    //sh '/usr/bin/python autosde.py unit-tests'
+    //sh "${env.WORKSPACE}/run_knafe -p ${env.CI_POOL} -u ${to_blame} -t ${env.CI_SUITE}"
+}
+
+return this;

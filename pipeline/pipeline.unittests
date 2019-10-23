@@ -1,27 +1,7 @@
 def runtests(my_repo, my_branch){
- //    deleteDir()
- //    echo "my_repo = ${my_repo}, my_branch = ${my_branch}, work space = ${env.WORKSPACE}"
- //    echo "params.my_repo = ${params.MYREPO}, params.my_branch = ${params.MYBRANCH}"
- //    //git branch: my_branch, url: my_repo
- //    checkout([$class: 'GitSCM',
- //            branches: [[name: my_branch]],
- //            doGenerateSubmoduleConfigurations: false,
- //            submoduleCfg: [],
- //            userRemoteConfigs: [[url: my_repo]]])
-	
- //    //get last commiter name 
- //    sh 'git log --format="%ae" | head -1 > commit-author.txt'                 
-	// name = readFile('commit-author.txt').trim()
-	// echo name
-
-	// //run_knafe -p kcs505 -t /khome/eyal.meltzer/work/source/p2top3/k.n.a.f.e/test_cases/features/knafe_ci/knafe_ci.feature -u eyal.meltzer –speedup
     echo "running the follow command = ${WORKSPACE}/run_knafe --help"
-    //rc = sh '${env.WORKSPACE}/run_knafe --help'
     rc = sh '${WORKSPACE}/run_knafe --help'
-    echo 'rc = $rc'
-    echo "done"
-    //sh '/usr/bin/python autosde.py unit-tests'
-    //sh "${env.WORKSPACE}/run_knafe -p ${env.CI_POOL} -u ${to_blame} -t ${env.CI_SUITE}"
+    return rc
 }
 
 return this;
