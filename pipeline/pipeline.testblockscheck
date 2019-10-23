@@ -1,0 +1,18 @@
+def check(){
+
+	// try {
+	// 	error_file_location1 = "/tmp/paramCheckError.txt"
+ //        rc = sh(script: "${env.WORKSPACE}/knafe_virtualenv/bin/python ${env.WORKSPACE}/scripts/ci_scripts/check_parameter_names.py > ${error_file_location1}", returnStatus: true, returnStdout: false)
+ //        if (rc == 1) {
+ //            if(!to_blame) {
+ //                to_blame = "alex.tarasiuk@kaminario.com"
+ //            }
+ //            param_names_errors = readFile("${error_file_location1}")
+ //            mail to: to_blame, cc: "alex.tarasiuk@kaminario.com", from:"ATF@kaminario.com", subject: "You have errors in some parameter names", body: param_names_errors
+ //        }
+ //    } catch (e) {
+ //        echo "Failed to check parameter names"
+ //        throw e
+ //    }
+}
+return this;

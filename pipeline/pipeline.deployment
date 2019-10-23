@@ -1,0 +1,8 @@
+def runtests(){
+    // sh "mkdir -p /ATF/ATF_DISTS/knafe/${env.BUILD_TAG}"
+    // sh "cp -R ${env.WORKSPACE}/* /ATF/ATF_DISTS/knafe/${env.BUILD_TAG}"
+    // sh "rm -f /ATF/ATF_DISTS/knafe/latest"
+    // sh "cd /ATF/ATF_DISTS/knafe/ && ln -sfn ${env.BUILD_TAG} latest"
+}
+
+return this;

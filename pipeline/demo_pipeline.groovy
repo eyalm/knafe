@@ -33,6 +33,7 @@ node('katfv5') {
         git branch: 'master', url: 'https://github.com/eyalm/knafe.git'
         
         checkout_code = load 'pipeline/pipeline.checkout'
+        testblockcheck = load 'pipeline/testblockscheck'
         unittests = load 'pipeline/pipeline.unittests'
         systemistall = load 'pipeline/pipeline.systeminstall'
         systemtests = load 'pipeline/pipeline.systemtests'
@@ -50,6 +51,10 @@ node('katfv5') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
 
+        stage ('Test Block\'s Check') {
+            testblockcheck.check()
+        } 
+
         stage ('SystemInstall') {
             
             systemistall.install()
@@ -57,11 +62,15 @@ node('katfv5') {
 
         stage ('SystemTests') {
             def suite = "${env.WORKSPACE}" + params.CI_SUITE
-            system_tests.runtests(CI_POOL, CI_USER, suite)
+            systemtests.runtests(CI_POOL, CI_USER, suite)
+        }
+
+        stage ('UserGuide') {
+            userguide.generate()
         }
 
         stage ('Deploy') {
-            system_tests.runtests(autosde_server_name, "sanity")
+            deployment.deploy()
         }
     }
     catch (e) {
