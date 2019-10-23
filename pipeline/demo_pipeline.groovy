@@ -37,7 +37,7 @@ node('katfv5') {
         git branch: 'master', url: 'https://github.com/eyalm/knafe.git'
         
         checkout_code = load 'pipeline/pipeline.checkout'
-        testblockcheck = load 'pipeline/testblockscheck'
+        testblockcheck = load 'pipeline/pipeline.testblockscheck'
         unittests = load 'pipeline/pipeline.unittests'
         systemistall = load 'pipeline/pipeline.systeminstall'
         systemtests = load 'pipeline/pipeline.systemtests'
