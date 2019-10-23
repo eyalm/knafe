@@ -3,6 +3,10 @@
 def unittests
 def checkout_code
 def systemtests
+def testblockcheck
+def systemistall
+def userguide
+def deployment
 
 
 
