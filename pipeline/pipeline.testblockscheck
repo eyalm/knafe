@@ -1,6 +1,9 @@
 def check(error_file_location){
 
     rc = sh(script: "${env.WORKSPACE}/knafe_virtualenv/bin/python ${env.WORKSPACE}/scripts/ci_scripts/check_parameter_names.py > ${error_file_location}", returnStatus: true, returnStdout: false)
-    return rc
+    if (res != 0) {
+        throw new Exception("Throw to stop pipeline from test blocks check")
+    }
+
 }
 return this;

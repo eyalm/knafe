@@ -9,15 +9,6 @@ def userguide
 def deployment
 def error_file_location_path = "/tmp/paramCheckError.txt"
 
-def send_mail(last_commiter_name, error_file_location_path){
-    // Use SUCCESS FAILURE or ABORTED
-    currentBuild.result = "FAILURE"
-    errors_dump = readFile("${error_file_location_path}")
-    to_blame = last_commiter_name + "@kaminario.com"
-    mail to: to_blame, cc: "alex.tarasiuk@kaminario.com", from:"ATF@kaminario.com", subject: "errors were found during Jenkines pipeline execution", body: errors_dump
-    throw new Exception("Throw to stop pipeline")
-
-}
 
 // Best to leave these at default unless you have a reason to change them
 node('katfv5') {
@@ -66,12 +57,12 @@ node('katfv5') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
 
-        stage ('Test Block\'s Check') {
-            res = testblockcheck.check(error_file_location_path)
-            if (res != 0) {
-                send_mail(last_commiter_name, error_file_location_path)
-            }
-        } 
+        // stage ('Test Block\'s Check') {
+        //     res = testblockcheck.check(error_file_location_path)
+        //     if (res != 0) {
+        //         send_error_report_by_mail(last_commiter_name, error_file_location_path)
+        //     }
+        // } 
 
         stage ('System Install') {
             
@@ -85,10 +76,6 @@ node('katfv5') {
 
         stage ('User Guide') {
             res = userguide.generate(error_file_location_path)
-            if (res != 0) {
-                send_mail(last_commiter_name, error_file_location_path)
-            }
-
         }
 
         stage ('Deploy') {
@@ -97,17 +84,18 @@ node('katfv5') {
     }
     catch (e) {
         // If there was an exception thrown, the build failed
+        // Use SUCCESS FAILURE UNSTABLE or ABORTED
         currentBuild.result = "FAILED"
         throw e
     }
     finally {
         // Success or failure, always send notifications
-        notifyBuild(currentBuild.result)
+        notifyBuild(currentBuild.result, last_commiter_name, error_file_location_path)
     }
 }
 
 
-def notifyBuild(String buildStatus = 'STARTED') {
+def notifyBuild(String buildStatus = 'STARTED', String last_commiter_name, String error_file_location_path) {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
@@ -115,46 +103,32 @@ def notifyBuild(String buildStatus = 'STARTED') {
   def colorName = 'RED'
   def colorCode = '#FF0000'
   def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-  def summary = "${subject} (${env.BUILD_URL})"
-  def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-    <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
 
   // Override default values based on build status
   if (buildStatus == 'STARTED') {
-    color = 'PLUM'
-    colorCode = '#DDA0DD'
+      color = 'PLUM'
+      colorCode = '#DDA0DD'
   } else if (buildStatus == 'SUCCESSFUL') {
-    color = 'GREEN'
-    colorCode = '#00FF00'
+      color = 'GREEN'
+      colorCode = '#00FF00'
   } else if (buildStatus == 'UNSTABLE') {
-    color = 'YELLOW'
-    colorCode = '#FFFF00'
-  } else {
-    color = 'RED'
-    colorCode = '#FF0000'
+      color = 'YELLOW'
+      colorCode = '#FFFF00'
+      errors_dump = readFile("${error_file_location_path}")
+  } else { //FAILED
+      color = 'RED'
+      colorCode = '#FF0000'
+      errors_dump = readFile("${error_file_location_path}")
   }
-
+    
+    def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>
+                  <p>${errors_dump}</p>"""
+    
+    
   // Send notifications
-  //slackSend (color: colorCode, message: summary)
-
-  // if (buildStatus == 'FAILED') {
-  //   emailext (
-  //       attachLog: true,
-  //       from: "Jenkins",
-  //       subject: subject,
-  //       body: details,
-  //       recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-  //       to: 'erantz@il.ibm.com'
-  //   )
-  // }
-  // else {
-  //   emailext (
-  //       attachLog: true,
-  //       from: "Jenkins",
-  //       subject: subject,
-  //       body: details,
-  //       recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
-  //   )
-  // }
+    to_blame = last_commiter_name + "@kaminario.com"
+    to_blame = "eyal.meltzer@kaminario.com"
+    mail to: to_blame, cc: "alex.tarasiuk@kaminario.com", from:"ATF@kaminario.com", subject: "errors were found during Jenkines pipeline execution", body: details
 }
 

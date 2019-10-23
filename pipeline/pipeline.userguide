@@ -1,7 +1,10 @@
 def generate(error_file_location){
     rc = sh(script: "${env.WORKSPACE}/knafe_virtualenv/bin/python ${env.WORKSPACE}/scripts/get_test_block_description_script.py --error_file ${error_file_location} > ${env.WORKSPACE}/user_guide",
             returnStatus: true, returnStdout: false)
-    return rc
+    if (rc != 0) {
+        throw new Exception("Throw to stop pipeline from generate user guide")
+    }
+
 }
 
 return this;
