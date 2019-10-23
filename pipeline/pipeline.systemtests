@@ -1,7 +1,10 @@
 def runtests(pool, user, suite){
     echo "running the follow command = ${env.WORKSPACE}/run_knafe "
     rc = sh "${env.WORKSPACE}/run_knafe -p ${pool} -u ${user} -t ${suite}"
-    return rc
+    if (rc != 0) {
+        throw new Exception("Throw to stop pipeline from system test")
+    }
+
 
 }
 

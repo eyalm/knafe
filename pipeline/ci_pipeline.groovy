@@ -57,12 +57,9 @@ node('katfv5') {
             unittests.runtests(params.MYREPO, params.MYBRANCH)
         }
 
-        // stage ('Test Block\'s Check') {
-        //     res = testblockcheck.check(error_file_location_path)
-        //     if (res != 0) {
-        //         send_error_report_by_mail(last_commiter_name, error_file_location_path)
-        //     }
-        // } 
+        stage ('Test Block\'s Check') {
+            res = testblockcheck.check(error_file_location_path)
+        } 
 
         stage ('System Install') {
             
@@ -121,16 +118,14 @@ def notifyBuild(String buildStatus, String last_commiter_name, String error_file
       errors_dump = readFile("${error_file_location_path}")
   }
     
-    def details = """STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':
-                     Check console output at '${env.BUILD_URL} ${env.JOB_NAME} [${env.BUILD_NUMBER}]'
-                     ${errors_dump}"""
+    def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>
+                  <p>${errors_dump}</p>"""
     
     
   // Send notifications
     to_blame = last_commiter_name + "@kaminario.com"
-    to_blame = "eyal.meltzer@kaminario.com"
-    //mail to: to_blame, cc: "alex.tarasiuk@kaminario.com", from:"ATF@kaminario.com", subject: "errors were found during Jenkines pipeline execution", body: details
-    mail to: to_blame, from:"ATF@kaminario.com", subject: "errors were found during Jenkines pipeline execution", body: details
+    mail to: to_blame, cc: "alex.tarasiuk@kaminario.com", from:"ATF@kaminario.com", subject: "errors were found during Jenkines pipeline execution", body: details
 
 }
 

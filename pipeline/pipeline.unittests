@@ -1,7 +1,10 @@
 def runtests(my_repo, my_branch){
     echo "running the follow command = ${WORKSPACE}/run_knafe --help"
     rc = sh '${WORKSPACE}/run_knafe --help'
-    return rc
+    if (rc != 0) {
+        throw new Exception("Throw to stop pipeline from unit tests")
+    }
+
 }
 
 return this;
