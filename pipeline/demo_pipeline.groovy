@@ -13,11 +13,11 @@ node('katfv5') {
             parameters(
               [
                 string(defaultValue: 'http://bitbucket/scm/atf/k.n.a.f.e.git', name: 'MYREPO'),
-                string(defaultValue: 'master', name: 'MYBRANCH')
-                string(defaultValue: 'jenkins_pool', name: 'CI_POOL')
-                string(defaultValue: 'jenkins_ci', name: 'CI_USER')
-                string(defaultValue: '/test_cases/features/knafe_ci/knafe_ci.feature', name: 'CI_SUITE')
-                string(defaultValue: '/ATF/ATF_DISTS/knafe', name: 'DIST_DIR')
+                string(defaultValue: 'master', name: 'MYBRANCH'),
+                string(defaultValue: 'jenkins_pool', name: 'CI_POOL'),
+                string(defaultValue: 'jenkins_ci', name: 'CI_USER'),
+                string(defaultValue: '/test_cases/features/knafe_ci/knafe_ci.feature', name: 'CI_SUITE'),
+                string(defaultValue: '/ATF/ATF_DISTS/knafe', name: 'DIST_DIR'),
               ]
             )
         ]
